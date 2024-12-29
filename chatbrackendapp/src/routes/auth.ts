@@ -4,33 +4,29 @@ import { crearUsuario, login, renewToken } from '../controllers/auth';
 import { validarCampos } from '../middlewares/validar-campos';
 import { validarJWT } from '../middlewares/validar-jwt';
 
-// Crear instancia del router
 const router = Router();
 
-// Configuración de la ruta para crear un nuevo usuario
 router.post(
     '/new',
     [
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-        check('email', 'El correo es obligatorio').isEmail(),
-        check('password', 'La contraseña es obligatoria').not().isEmpty(),
-        validarCampos, // Middleware para validar campos
+        check('email', 'El email es obligatorio').isEmail(),
+        check('password', 'La contraseña debe tener al menos 6 caracteres').isLength({ min: 6 }),
+        validarCampos,
     ],
     crearUsuario
 );
 
-// Configuración de la ruta para login
 router.post(
     '/',
     [
-        check('email', 'El correo es obligatorio').isEmail(),
+        check('email', 'El email es obligatorio').isEmail(),
         check('password', 'La contraseña es obligatoria').not().isEmpty(),
-        validarCampos, // Middleware para validar campos
+        validarCampos,
     ],
     login
 );
 
-// Configuración de la ruta para renovar el token
 router.get('/renew', validarJWT, renewToken);
 
 export default router;

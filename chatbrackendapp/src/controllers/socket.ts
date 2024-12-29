@@ -1,5 +1,5 @@
+import { MensajeModel , IMensaje } from '../models/mensaje';
 import { UsuarioModel, IUsuario } from '../models/usuario';
-import { Mensaje, IMensaje } from '../models/mensaje';
 
 // Interfaz para el payload del mensaje
 interface MensajePayload {
@@ -41,7 +41,7 @@ export const usuarioDesconectado = async (uid: string): Promise<IUsuario | null>
 // Función para grabar un mensaje
 export const grabarMensaje = async (payload: MensajePayload): Promise<boolean> => {
     try {
-        const mensaje = new Mensaje(payload); // Crear mensaje
+        const mensaje = new MensajeModel (payload); // Crear mensaje
         await mensaje.save(); // Guardar en base de datos
         return true;
     } catch (error) {

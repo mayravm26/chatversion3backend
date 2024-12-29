@@ -1,34 +1,30 @@
 import { Request, Response } from 'express';
-import { Mensaje } from '../models/mensaje';
+import { MensajeModel } from '../models/mensaje';
 
-const getMensajes = async (req: Request, res: Response): Promise<Response> => {
-    const miUid = req.uid; // Asegúrate de que `uid` esté definido en el middleware de autenticación
-    const mensajesDe = req.params.de;
+export const getMensajes = async (req: Request, res: Response): Promise<void> => {
+    const miUid = req.uid; // `uid` definido en el middleware `validarJWT`
+    const mensajesDe = req.params.de; // UID del otro usuario
 
     try {
-        // Cargar los últimos 30 mensajes 
-        const ult30men = await Mensaje.find({
-            // Recuperamos los mensajes que yo he enviado a un usuario 
-            // y los que el usuario me ha enviado a mí de manera descendente
+        // Obtener los últimos 30 mensajes entre `miUid` y `mensajesDe`
+        const ultimos30Mensajes = await MensajeModel.find({
             $or: [
                 { de: miUid, para: mensajesDe },
-                { de: mensajesDe, para: miUid }
-            ]
-        }).sort({ createdAt: 'desc' }).limit(30);
+                { de: mensajesDe, para: miUid },
+            ],
+        })
+            .sort({ createdAt: 'desc' }) // Ordenar por fecha descendente
+            .limit(30); // Limitar a 30 mensajes
 
-        return res.json({
+        res.json({
             ok: true,
-            mensajes: ult30men
+            mensajes: ultimos30Mensajes,
         });
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({
+        console.error('Error obteniendo mensajes:', error);
+        res.status(500).json({
             ok: false,
-            msg: 'Hable con el administrador'
+            msg: 'Error al obtener los mensajes',
         });
     }
-}
-
-export {
-    getMensajes
-}
+};

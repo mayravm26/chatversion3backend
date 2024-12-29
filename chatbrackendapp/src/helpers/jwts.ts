@@ -1,11 +1,13 @@
 import jwt from 'jsonwebtoken';
 
 export const generarJWT = (uid: string): Promise<string> => {
+    console.log('JWT_KEY:', process.env.JWT_KEY); // Verificar que el JWT_KEY esté configurado
+
     return new Promise((resolve, reject) => {
         jwt.sign(
             { uid },
-            process.env.JWT_KEY || '',
-            { expiresIn: '24h' },
+            process.env.JWT_KEY || '', // Usar la clave secreta
+            { expiresIn: '24h' }, // Configuración del token
             (err, token) => {
                 if (err) {
                     console.error('Error generando JWT:', err);
@@ -18,6 +20,8 @@ export const generarJWT = (uid: string): Promise<string> => {
 };
 
 export const comprobarJWT = (token: string): [boolean, string | null] => {
+    console.log('JWT_KEY al comprobar:', process.env.JWT_KEY); // Verificar que el JWT_KEY esté configurado
+
     try {
         const { uid } = jwt.verify(token, process.env.JWT_KEY || '') as { uid: string };
         return [true, uid];

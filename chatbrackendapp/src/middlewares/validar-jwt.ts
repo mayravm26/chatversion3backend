@@ -23,8 +23,8 @@ export const validarJWT = (req: Request, res: Response, next: NextFunction): voi
 
     try {
         const { uid } = jwt.verify(token, process.env.JWT_KEY || '') as { uid: string };
-        req.uid = uid;
-        next();
+        req.uid = uid; // Asignar el UID al objeto `req`
+        next(); // Pasar al siguiente middleware
     } catch (error) {
         console.error('Error verificando el token:', error);
         res.status(401).json({
