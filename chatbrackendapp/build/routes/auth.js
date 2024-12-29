@@ -12,7 +12,7 @@ router.post('/new', [
     (0, express_validator_1.check)('password', 'La contraseña debe tener al menos 6 caracteres').isLength({ min: 6 }),
     validar_campos_1.validarCampos,
 ], auth_1.crearUsuario);
-router.post('/', [
+router.post('/login', [
     (0, express_validator_1.check)('email', 'El email es obligatorio').isEmail(),
     (0, express_validator_1.check)('password', 'La contraseña es obligatoria').not().isEmpty(),
     validar_campos_1.validarCampos,
