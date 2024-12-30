@@ -15,7 +15,7 @@ const validarJWT = (req, res, next) => {
         return;
     }
     try {
-        const { uid } = jsonwebtoken_1.default.verify(token, process.env.JWT_KEY || '');
+        const { uid } = jsonwebtoken_1.default.verify(token, process.env.JWT_KEY || 'tu_clave_secreta');
         req.uid = uid; // Asignar el UID al objeto `req`
         next(); // Pasar al siguiente middleware
     }

@@ -46,9 +46,11 @@ const usuarioDesconectado = (uid) => __awaiter(void 0, void 0, void 0, function*
 exports.usuarioDesconectado = usuarioDesconectado;
 // Función para grabar un mensaje
 const grabarMensaje = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('Guardando mensaje:', payload);
     try {
         const mensaje = new mensaje_1.MensajeModel(payload); // Crear mensaje
         yield mensaje.save(); // Guardar en base de datos
+        console.log('Mensaje guardado en la base de datos:', mensaje);
         return true;
     }
     catch (error) {

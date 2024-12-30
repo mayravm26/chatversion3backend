@@ -22,7 +22,7 @@ export const validarJWT = (req: Request, res: Response, next: NextFunction): voi
     }
 
     try {
-        const { uid } = jwt.verify(token, process.env.JWT_KEY || '') as { uid: string };
+        const { uid } = jwt.verify(token, process.env.JWT_KEY || 'tu_clave_secreta') as { uid: string };
         req.uid = uid; // Asignar el UID al objeto `req`
         next(); // Pasar al siguiente middleware
     } catch (error) {

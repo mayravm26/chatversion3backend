@@ -40,9 +40,11 @@ export const usuarioDesconectado = async (uid: string): Promise<IUsuario | null>
 
 // Función para grabar un mensaje
 export const grabarMensaje = async (payload: MensajePayload): Promise<boolean> => {
+    console.log('Guardando mensaje:', payload);
     try {
         const mensaje = new MensajeModel (payload); // Crear mensaje
         await mensaje.save(); // Guardar en base de datos
+        console.log('Mensaje guardado en la base de datos:', mensaje);
         return true;
     } catch (error) {
         console.error('Error grabando mensaje:', error);

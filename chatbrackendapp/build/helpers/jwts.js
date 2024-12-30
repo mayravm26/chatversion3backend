@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.comprobarJWT = exports.generarJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const generarJWT = (uid) => {
-    console.log('JWT_KEY:', process.env.JWT_KEY); // Verificar que el JWT_KEY esté configurado
+    console.log('JWT_KEY usada para generar:', process.env.JWT_KEY); // Verificar que el JWT_KEY esté configurado
     return new Promise((resolve, reject) => {
-        jsonwebtoken_1.default.sign({ uid }, process.env.JWT_KEY || '', // Usar la clave secreta
+        jsonwebtoken_1.default.sign({ uid }, process.env.JWT_KEY || 'tu_clave_secreta', // Usar la clave secreta
         { expiresIn: '24h' }, // Configuración del token
         (err, token) => {
             if (err) {
@@ -23,7 +23,7 @@ exports.generarJWT = generarJWT;
 const comprobarJWT = (token) => {
     console.log('JWT_KEY al comprobar:', process.env.JWT_KEY); // Verificar que el JWT_KEY esté configurado
     try {
-        const { uid } = jsonwebtoken_1.default.verify(token, process.env.JWT_KEY || '');
+        const { uid } = jsonwebtoken_1.default.verify(token, process.env.JWT_KEY || 'tu_clave_secreta');
         return [true, uid];
     }
     catch (error) {
